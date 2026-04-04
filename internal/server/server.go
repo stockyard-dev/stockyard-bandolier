@@ -34,6 +34,7 @@ patch.Value=existing.Value};if patch.Environment==""{
 patch.Environment=existing.Environment};if patch.Project==""{
 patch.Project=existing.Project};if patch.Description==""{
 patch.Description=existing.Description}
+    if patch.Sensitive==0{patch.Sensitive=existing.Sensitive}
     s.db.Update(&patch);wj(w,200,s.db.Get(patch.ID))
 }
 func(s *Server)del(w http.ResponseWriter,r *http.Request){s.db.Delete(r.PathValue("id"));wj(w,200,map[string]string{"deleted":"ok"})}
