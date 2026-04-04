@@ -58,7 +58,7 @@ const dashHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="v
 <script>
 var A='/api',items=[],editId=null,revealed={};
 
-async function load(){var r=await fetch(A+'/secrets').then(function(r){return r.json()});items=r.secrets||[];renderStats();buildEnvFilter();render();}
+async function load(){var r=await fetch(A+'/env_vars').then(function(r){return r.json()});items=r.env_vars||[];renderStats();buildEnvFilter();render();}
 
 function renderStats(){
 var total=items.length;
@@ -102,7 +102,7 @@ document.getElementById('secrets').innerHTML=h;
 }
 
 function toggleReveal(id){revealed[id]=!revealed[id];render();}
-async function del(id){if(!confirm('Delete?'))return;await fetch(A+'/secrets/'+id,{method:'DELETE'});load();}
+async function del(id){if(!confirm('Delete?'))return;await fetch(A+'/env_vars/'+id,{method:'DELETE'});load();}
 
 function formHTML(secret){
 var i=secret||{key:'',value:'',environment:'',project:'',sensitive:0,description:''};
@@ -126,8 +126,8 @@ async function submit(){
 var key=document.getElementById('f-key').value.trim();
 if(!key){alert('Key is required');return;}
 var body={key:key,value:document.getElementById('f-value').value,environment:document.getElementById('f-env').value.trim(),project:document.getElementById('f-proj').value.trim(),description:document.getElementById('f-desc').value.trim(),sensitive:document.getElementById('f-sens').checked?1:0};
-if(editId){await fetch(A+'/secrets/'+editId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});}
-else{await fetch(A+'/secrets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});}
+if(editId){await fetch(A+'/env_vars/'+editId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});}
+else{await fetch(A+'/env_vars',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});}
 closeModal();load();
 }
 
